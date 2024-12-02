@@ -10,7 +10,15 @@ import UIKit
 
 final class MainScreenBuilder {
     static func build() -> UIViewController {
-        let navigationController = UINavigationController(rootViewController: MainScreenViewController())
+        let interaction = MainScreenInteractor()
+        let router = MainScreenRouter()
+        let presenter = MainScreenPresenter(router: router, interactor: interaction)
+        let view = MainScreenViewController()
+        view.presenter = presenter
+        interaction.presenter = presenter
+        router.presenter = presenter
+        presenter.view = view
+        let navigationController = UINavigationController(rootViewController: view)
         return navigationController
     }
 }

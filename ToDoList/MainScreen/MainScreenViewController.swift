@@ -7,8 +7,8 @@
 
 import UIKit
 
-protocol MainScreenViewControllerProtocol: AnyObject {
-    func showTasks(tasks: [Todo])
+protocol MainScreenViewProtocol: AnyObject {
+    func reloadData()
     func createNewTask()
     func editTask(task: Todo)
     func deleteTask(task: Todo)
@@ -24,11 +24,15 @@ class MainScreenViewController: UIViewController {
     private let newTaskButton = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
     
     // MARK: - Public Properties
+    
+    var presenter: MainScreenPresenterProtocol?
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        presenter?.viewDidLoaded()
     }
     
     // MARK: - Private Methods
@@ -38,6 +42,7 @@ class MainScreenViewController: UIViewController {
         setupNavBar()
         setupSearchController()
         setupLowerBar()
+        setupTaskTableView()
     }
     
     private func setupNavBar() {
@@ -74,7 +79,19 @@ class MainScreenViewController: UIViewController {
             lowerBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             lowerBar.heightAnchor.constraint(equalToConstant: 83)
         ])
-        
+    }
+    
+    private func setupTaskTableView() {
+        tasksTableView.delegate = self
+        tasksTableView.dataSource = self
+        view.addSubview(tasksTableView)
+        tasksTableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tasksTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tasksTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tasksTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tasksTableView.bottomAnchor.constraint(equalTo: lowerBar.topAnchor)
+        ])
     }
     
     // MARK: - Public Methods
@@ -85,10 +102,10 @@ class MainScreenViewController: UIViewController {
 
 // MARK: - MainScreenViewControllerProtocol
 
-extension MainScreenViewController: MainScreenViewControllerProtocol {
+extension MainScreenViewController: MainScreenViewProtocol {
     
-    func showTasks(tasks: [Todo]) {
-        
+    func reloadData() {
+        tasksTableView.reloadData()
     }
     
     func createNewTask() {
@@ -109,11 +126,14 @@ extension MainScreenViewController: MainScreenViewControllerProtocol {
 extension MainScreenViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return presenter?.tasks?.todos.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let presenter else { return UITableViewCell()}
+        guard let tasks = presenter.tasks else { return UITableViewCell()}
+        let cell = MainScreenTableViewCell(todo: tasks.todos[indexPath.row])
+        return cell
     }
 }
 
