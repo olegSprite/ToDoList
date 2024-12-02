@@ -16,12 +16,14 @@ struct TasksModel: Codable {
 // MARK: - Todo
 struct Todo: Codable {
     let id: Int
+    let title: String?
     let todo: String
     let completed: Bool
     let userID: Int
+    let date: Date?
 
     enum CodingKeys: String, CodingKey {
-        case id, todo, completed
+        case id, todo, completed, title, date
         case userID = "userId"
     }
 }

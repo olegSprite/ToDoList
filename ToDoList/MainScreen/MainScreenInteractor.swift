@@ -24,12 +24,12 @@ final class MainScreenInteractor: MainScreenInteractorProtocol {
     
     func fetchData() -> TasksModel {
         let task = TasksModel(todos: [
-            Todo(id: 100, todo: "Тест Тест Тест Тест ТестТестТест", completed: true, userID: 1),
-            Todo(id: 100, todo: "Тест Тест Тест Тест ТестТестТест", completed: true, userID: 1),
-            Todo(id: 100, todo: "Тест Тест Тест Тест ТестТестТест", completed: true, userID: 1),
-            Todo(id: 100, todo: "Тест Тест Тест Тест ТестТестТест", completed: false, userID: 1),
-            Todo(id: 100, todo: "Тест Тест Тест Тест ТестТестТест", completed: false, userID: 1),
-            Todo(id: 100, todo: "Тест Тест Тест Тест ТестТестТест", completed: false, userID: 1)
+            Todo(id: 100, title: "Тест", todo: "Тест Тест Тест Тест ТестТестТест", completed: true, userID: 1, date: Date()),
+            Todo(id: 100, title: "Тест", todo: "Тест Тест Тест Тест ТестТестТест", completed: true, userID: 1, date: Date()),
+            Todo(id: 100, title: "Тест", todo: "Тест Тест Тест Тест ТестТестТест", completed: true, userID: 1, date: Date()),
+            Todo(id: 100, title: "Тест", todo: "Тест Тест Тест Тест ТестТестТест", completed: false, userID: 1, date: Date()),
+            Todo(id: 100, title: "Тест", todo: "Тест Тест Тест Тест ТестТестТест", completed: false, userID: 1, date: Date()),
+            Todo(id: 100, title: "Тест", todo: "Тест Тест Тест Тест ТестТестТест", completed: false, userID: 1, date: Date())
         ],
                               total: 1,
                               skip: 1,

@@ -9,9 +9,6 @@ import UIKit
 
 protocol MainScreenViewProtocol: AnyObject {
     func reloadData()
-    func createNewTask()
-    func editTask(task: Todo)
-    func deleteTask(task: Todo)
 }
 
 class MainScreenViewController: UIViewController {
@@ -21,7 +18,8 @@ class MainScreenViewController: UIViewController {
     private let tasksTableView = UITableView()
     private let searchController = UISearchController(searchResultsController: nil)
     private let lowerBar = UIView()
-    private let newTaskButton = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+    private let taskCountLable = UILabel()
+    private let newTaskButton = UIButton()
     
     // MARK: - Public Properties
     
@@ -38,7 +36,7 @@ class MainScreenViewController: UIViewController {
     // MARK: - Private Methods
     
     private func setupViews() {
-        view.backgroundColor = .black
+        view.backgroundColor = UIColor(named: "Black")
         setupNavBar()
         setupSearchController()
         setupLowerBar()
@@ -50,15 +48,15 @@ class MainScreenViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .black
+        appearance.backgroundColor = UIColor(named: "Black")
         appearance.largeTitleTextAttributes = [
-            .foregroundColor: UIColor.white,
+            .foregroundColor: UIColor(named: "White") ?? .white,
             .font: UIFont.boldSystemFont(ofSize: 34)
         ]
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.tintColor = UIColor(named: "White")
     }
     
     private func setupSearchController() {
@@ -70,7 +68,7 @@ class MainScreenViewController: UIViewController {
     }
     
     private func setupLowerBar() {
-        lowerBar.backgroundColor = .gray
+        lowerBar.backgroundColor = UIColor(named: "Gray")
         view.addSubview(lowerBar)
         lowerBar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -79,11 +77,14 @@ class MainScreenViewController: UIViewController {
             lowerBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             lowerBar.heightAnchor.constraint(equalToConstant: 83)
         ])
+        addTaskCountLable()
+        setupNewTaskButton()
     }
     
     private func setupTaskTableView() {
         tasksTableView.delegate = self
         tasksTableView.dataSource = self
+        tasksTableView.backgroundColor = UIColor(named: "Black")
         view.addSubview(tasksTableView)
         tasksTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -94,10 +95,36 @@ class MainScreenViewController: UIViewController {
         ])
     }
     
-    // MARK: - Public Methods
-    // MARK: - Private Actions
-    // MARK: - Public Actions
+    private func addTaskCountLable() {
+        taskCountLable.font = UIFont.systemFont(ofSize: 11, weight: .regular)
+        taskCountLable.textColor = UIColor(named: "White")
+        lowerBar.addSubview(taskCountLable)
+        taskCountLable.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            taskCountLable.centerXAnchor.constraint(equalTo: lowerBar.centerXAnchor),
+            taskCountLable.topAnchor.constraint(equalTo: lowerBar.topAnchor, constant: 20)
+            ])
+    }
     
+    private func setupNewTaskButton() {
+        newTaskButton.setImage(.init(systemName: "square.and.pencil"), for: .normal)
+        newTaskButton.tintColor = UIColor(named: "Yellow")
+        newTaskButton.addTarget(self, action: #selector(newTaskButtonTapped), for: .touchUpInside)
+        lowerBar.addSubview(newTaskButton)
+        newTaskButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            newTaskButton.topAnchor.constraint(equalTo: lowerBar.topAnchor, constant: 13),
+            newTaskButton.trailingAnchor.constraint(equalTo: lowerBar.trailingAnchor, constant: -13),
+            newTaskButton.widthAnchor.constraint(equalToConstant: 28),
+            newTaskButton.heightAnchor.constraint(equalToConstant: 28)
+        ])
+    }
+    
+    // MARK: - Private Actions
+    
+    @objc private func newTaskButtonTapped() {
+        presenter?.newTaskButtonTapped()
+    }
 }
 
 // MARK: - MainScreenViewControllerProtocol
@@ -106,18 +133,7 @@ extension MainScreenViewController: MainScreenViewProtocol {
     
     func reloadData() {
         tasksTableView.reloadData()
-    }
-    
-    func createNewTask() {
-        
-    }
-    
-    func editTask(task: Todo) {
-        
-    }
-    
-    func deleteTask(task: Todo) {
-        
+        taskCountLable.text = "\(presenter?.tasks?.todos.count ?? 0) задач"
     }
 }
 
@@ -141,6 +157,9 @@ extension MainScreenViewController: UITableViewDataSource {
 
 extension MainScreenViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+            return 106
+        }
 }
 
 // MARK: - UISearchResultsUpdating

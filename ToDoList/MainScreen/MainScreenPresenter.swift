@@ -10,6 +10,7 @@ import Foundation
 protocol MainScreenPresenterProtocol: AnyObject {
     var tasks: TasksModel? { get }
     func viewDidLoaded()
+    func newTaskButtonTapped()
 }
 
 final class MainScreenPresenter: MainScreenPresenterProtocol {
@@ -35,6 +36,11 @@ final class MainScreenPresenter: MainScreenPresenterProtocol {
     
     func viewDidLoaded() {
         self.tasks = interactor.fetchData()
+        view?.reloadData()
+    }
+    
+    func newTaskButtonTapped() {
+        <#code#>
     }
     
     // MARK: - Private Actions
