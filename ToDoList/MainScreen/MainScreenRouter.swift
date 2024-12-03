@@ -8,7 +8,7 @@
 import Foundation
 
 protocol MainScreenRouterProtocol: AnyObject {
-    
+    func openCreatingTodoScreen()
 }
 
 final class MainScreenRouter: MainScreenRouterProtocol {
@@ -16,11 +16,18 @@ final class MainScreenRouter: MainScreenRouterProtocol {
     // MARK: - Private Properties
     // MARK: - Public Properties
     
+    weak var view: MainScreenViewController?
     var presenter: MainScreenPresenterProtocol?
     
     // MARK: - Lifecycle
     // MARK: - Private Methods
     // MARK: - Public Methods
+    
+    func openCreatingTodoScreen() {
+        let vc = CreatingTodoBuilder.build()
+        self.view?.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     // MARK: - Private Actions
     // MARK: - Public Actions
     

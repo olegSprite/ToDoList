@@ -57,6 +57,10 @@ class MainScreenViewController: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.navigationBar.tintColor = UIColor(named: "White")
+        let backButton = UIBarButtonItem()
+        backButton.title = "Назад"
+        backButton.tintColor = UIColor(named: "Yellow")
+        navigationItem.backBarButtonItem = backButton
     }
     
     private func setupSearchController() {

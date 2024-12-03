@@ -80,10 +80,8 @@ final class MainScreenTableViewCell: UITableViewCell {
     
     private func setupDateLable() {
         guard let todo else { return }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yy"
         if let date = todo.date {
-            dateLable.text = formatter.string(from: date)
+            dateLable.text = date.formattedToAppFormat()
         }
         dateLable.textColor = UIColor(named: "Gray")
         dateLable.font = UIFont.systemFont(ofSize: 12, weight: .regular)

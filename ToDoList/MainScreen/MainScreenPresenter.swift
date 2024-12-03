@@ -16,11 +16,13 @@ protocol MainScreenPresenterProtocol: AnyObject {
 final class MainScreenPresenter: MainScreenPresenterProtocol {
     
     // MARK: - Private Properties
+    
+    private var router: MainScreenRouterProtocol
+    private var interactor: MainScreenInteractorProtocol
+    
     // MARK: - Public Properties
     
     weak var view: MainScreenViewProtocol?
-    var router: MainScreenRouterProtocol
-    var interactor: MainScreenInteractorProtocol
     var tasks: TasksModel? = nil
     
     //MARK: - Init
@@ -40,7 +42,7 @@ final class MainScreenPresenter: MainScreenPresenterProtocol {
     }
     
     func newTaskButtonTapped() {
-        <#code#>
+        router.openCreatingTodoScreen()
     }
     
     // MARK: - Private Actions

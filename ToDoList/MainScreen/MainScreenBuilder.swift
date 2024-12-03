@@ -17,6 +17,7 @@ final class MainScreenBuilder {
         view.presenter = presenter
         interaction.presenter = presenter
         router.presenter = presenter
+        router.view = view
         presenter.view = view
         let navigationController = UINavigationController(rootViewController: view)
         return navigationController
