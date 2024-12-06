@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CreatingToDoViewProtocol: AnyObject {
-    
+    func viewReadyForClosing()
 }
 
 final class CreatingTodoViewController: UIViewController {
@@ -28,7 +28,6 @@ final class CreatingTodoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        presenter?.viewDidLoaded()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -49,6 +48,14 @@ final class CreatingTodoViewController: UIViewController {
     
     private func setupNavBar() {
         navigationController?.navigationBar.prefersLargeTitles = false
+        let doneButton = UIBarButtonItem(
+            title: "Готово",
+            style: .done,
+            target: self,
+            action: #selector(doneButtonTapped)
+        )
+        doneButton.tintColor = UIColor(named: "Yellow")
+        navigationItem.rightBarButtonItem = doneButton
     }
     
     private func setupTitleTextView() {
@@ -95,8 +102,9 @@ final class CreatingTodoViewController: UIViewController {
     // MARK: - Public Methods
     // MARK: - Private Actions
     
-    @objc private func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
+    @objc private func doneButtonTapped() {
+        guard let title = titleTextField.text else { return }
+        presenter?.doneButtonTapped(title: title, todo: descriptionTextView.text)
     }
     
     // MARK: - Public Actions
@@ -107,4 +115,7 @@ final class CreatingTodoViewController: UIViewController {
 
 extension CreatingTodoViewController: CreatingToDoViewProtocol {
     
+    func viewReadyForClosing() {
+        self.navigationController?.popViewController(animated: true)
+    }
 }

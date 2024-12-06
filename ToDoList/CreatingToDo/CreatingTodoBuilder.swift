@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class CreatingTodoBuilder {
-    static func build() -> UIViewController {
+    static func build(from parentView: UIViewController) -> UIViewController {
         let interaction = CreatingTodoInteractor()
         let router = CreatingTodoRouter()
         let presenter = CreatingTodoPresenter(router: router, interactor: interaction)
@@ -18,6 +18,7 @@ final class CreatingTodoBuilder {
         interaction.presenter = presenter
         router.presenter = presenter
         presenter.view = view
+        presenter.parentView = parentView as? any MainScreenViewProtocol
         return view
     }
 }

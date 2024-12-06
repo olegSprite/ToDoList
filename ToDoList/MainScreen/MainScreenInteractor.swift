@@ -8,12 +8,16 @@
 import Foundation
 
 protocol MainScreenInteractorProtocol: AnyObject {
-    func fetchData() -> TasksModel
+    func fetchData()
 }
 
 final class MainScreenInteractor: MainScreenInteractorProtocol {
     
     // MARK: - Private Properties
+    
+    private let networkService = NetworkService.shared
+    private let coreDataStack = CoreDataStack.shared
+    
     // MARK: - Public Properties
     
     var presenter: MainScreenPresenterProtocol?
@@ -22,19 +26,31 @@ final class MainScreenInteractor: MainScreenInteractorProtocol {
     // MARK: - Private Methods
     // MARK: - Public Methods
     
-    func fetchData() -> TasksModel {
-        let task = TasksModel(todos: [
-            Todo(id: 100, title: "Тест", todo: "Тест Тест Тест Тест ТестТестТест", completed: true, userID: 1, date: Date()),
-            Todo(id: 100, title: "Тест", todo: "Тест Тест Тест Тест ТестТестТест", completed: true, userID: 1, date: Date()),
-            Todo(id: 100, title: "Тест", todo: "Тест Тест Тест Тест ТестТестТест", completed: true, userID: 1, date: Date()),
-            Todo(id: 100, title: "Тест", todo: "Тест Тест Тест Тест ТестТестТест", completed: false, userID: 1, date: Date()),
-            Todo(id: 100, title: "Тест", todo: "Тест Тест Тест Тест ТестТестТест", completed: false, userID: 1, date: Date()),
-            Todo(id: 100, title: "Тест", todo: "Тест Тест Тест Тест ТестТестТест", completed: false, userID: 1, date: Date())
-        ],
-                              total: 1,
-                              skip: 1,
-                              limit: 1)
-        return task
+    func fetchData() {
+        if UserDefaultService.checkFirstLaunch() {
+            UserDefaultService.aplicationLaunchedFirstTime()
+            networkService.fetchTodos { result in
+                switch result {
+                case .success(let todos):
+                    self.coreDataStack.saveTodos(todos)
+                    DispatchQueue.main.async {
+                        self.presenter?.todosIsLoaded(todos: todos)
+                    }
+                case .failure(let error):
+                    switch error {
+                    case .invalidURL:
+                        print("Invalid URL")
+                    case .requestFailed(let underlyingError):
+                        print("Request failed with error: \(underlyingError)")
+                    case .invalidResponse:
+                        print("Invalid response from server")
+                    case .decodingError(let decodingError):
+                        print("Failed to decode JSON: \(decodingError)")
+                    }
+                }
+            }
+        }
+        self.presenter?.todosIsLoaded(todos: self.coreDataStack.fetchTodos())
     }
     
     // MARK: - Private Actions

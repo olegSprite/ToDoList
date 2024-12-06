@@ -8,11 +8,15 @@
 import Foundation
 
 protocol CreatingTodoInteractorProtocol {
-    
+    func saveTodo(todo: Todo)
 }
 
 final class CreatingTodoInteractor: CreatingTodoInteractorProtocol {
+    
     // MARK: - Private Properties
+    
+    private let coreDataStack = CoreDataStack.shared
+    
     // MARK: - Public Properties
     
     var presenter: CreatingTodoPresenterProtocol?
@@ -20,6 +24,11 @@ final class CreatingTodoInteractor: CreatingTodoInteractorProtocol {
     // MARK: - Lifecycle
     // MARK: - Private Methods
     // MARK: - Public Methods
+    
+    func saveTodo(todo: Todo) {
+        coreDataStack.saveTodo(todo)
+    }
+    
     // MARK: - Private Actions
     // MARK: - Public Actions
     

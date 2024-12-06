@@ -8,9 +8,11 @@
 import Foundation
 
 protocol MainScreenPresenterProtocol: AnyObject {
-    var tasks: TasksModel? { get }
+    var tasks: [Todo]? { get }
     func viewDidLoaded()
     func newTaskButtonTapped()
+    func todosIsLoaded(todos: [Todo])
+    func loadTodosFromCoreData()
 }
 
 final class MainScreenPresenter: MainScreenPresenterProtocol {
@@ -23,7 +25,7 @@ final class MainScreenPresenter: MainScreenPresenterProtocol {
     // MARK: - Public Properties
     
     weak var view: MainScreenViewProtocol?
-    var tasks: TasksModel? = nil
+    var tasks: [Todo]? = nil
     
     //MARK: - Init
     
@@ -37,13 +39,22 @@ final class MainScreenPresenter: MainScreenPresenterProtocol {
     // MARK: - Public Methods
     
     func viewDidLoaded() {
-        self.tasks = interactor.fetchData()
-        view?.reloadData()
+        interactor.fetchData()
     }
     
     func newTaskButtonTapped() {
         router.openCreatingTodoScreen()
     }
+    
+    func todosIsLoaded(todos: [Todo]) {
+        self.tasks = todos
+        view?.reloadData()
+    }
+    
+    func loadTodosFromCoreData() {
+        interactor.fetchData()
+    }
+
     
     // MARK: - Private Actions
     // MARK: - Public Actions

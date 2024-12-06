@@ -24,7 +24,8 @@ final class MainScreenRouter: MainScreenRouterProtocol {
     // MARK: - Public Methods
     
     func openCreatingTodoScreen() {
-        let vc = CreatingTodoBuilder.build()
+        guard let view else { return }
+        let vc = CreatingTodoBuilder.build(from: view)
         self.view?.navigationController?.pushViewController(vc, animated: true)
     }
     

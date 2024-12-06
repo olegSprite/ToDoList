@@ -9,6 +9,7 @@ import UIKit
 
 protocol MainScreenViewProtocol: AnyObject {
     func reloadData()
+    func fetchNewData()
 }
 
 class MainScreenViewController: UIViewController {
@@ -137,7 +138,11 @@ extension MainScreenViewController: MainScreenViewProtocol {
     
     func reloadData() {
         tasksTableView.reloadData()
-        taskCountLable.text = "\(presenter?.tasks?.todos.count ?? 0) задач"
+        taskCountLable.text = "\(presenter?.tasks?.count ?? 0) задач"
+    }
+    
+    func fetchNewData() {
+        presenter?.loadTodosFromCoreData()
     }
 }
 
@@ -146,13 +151,13 @@ extension MainScreenViewController: MainScreenViewProtocol {
 extension MainScreenViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter?.tasks?.todos.count ?? 0
+        return presenter?.tasks?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let presenter else { return UITableViewCell()}
         guard let tasks = presenter.tasks else { return UITableViewCell()}
-        let cell = MainScreenTableViewCell(todo: tasks.todos[indexPath.row])
+        let cell = MainScreenTableViewCell(todo: tasks[indexPath.row])
         return cell
     }
 }

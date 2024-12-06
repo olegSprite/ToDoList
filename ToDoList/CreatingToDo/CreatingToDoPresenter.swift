@@ -8,7 +8,7 @@
 import Foundation
 
 protocol CreatingTodoPresenterProtocol: AnyObject {
-    func viewDidLoaded()
+    func doneButtonTapped(title: String, todo: String)
 }
 
 final class CreatingTodoPresenter: CreatingTodoPresenterProtocol {
@@ -21,6 +21,7 @@ final class CreatingTodoPresenter: CreatingTodoPresenterProtocol {
     // MARK: - Public Properties
     
     weak var view: CreatingToDoViewProtocol?
+    weak var parentView: MainScreenViewProtocol?
     
     // MARK: - Init
     
@@ -33,8 +34,17 @@ final class CreatingTodoPresenter: CreatingTodoPresenterProtocol {
     // MARK: - Private Methods
     // MARK: - Public Methods
     
-    func viewDidLoaded() {
-        
+    func doneButtonTapped(title: String, todo: String) {
+        let todo = Todo(
+            id: UUID(),
+            title: title,
+            todo: todo,
+            completed: false,
+            date: Date()
+        )
+        interactor.saveTodo(todo: todo)
+        view?.viewReadyForClosing()
+        parentView?.fetchNewData()
     }
     
     // MARK: - Private Actions
