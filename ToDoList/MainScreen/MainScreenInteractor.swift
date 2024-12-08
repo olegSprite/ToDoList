@@ -9,6 +9,8 @@ import Foundation
 
 protocol MainScreenInteractorProtocol: AnyObject {
     func fetchData()
+    func todoCompletedToggle(todo: Todo)
+    func delete(todo: Todo)
 }
 
 final class MainScreenInteractor: MainScreenInteractorProtocol {
@@ -49,6 +51,19 @@ final class MainScreenInteractor: MainScreenInteractorProtocol {
                     }
                 }
             }
+        }
+        self.presenter?.todosIsLoaded(todos: self.coreDataStack.fetchTodos())
+    }
+    
+    func todoCompletedToggle(todo: Todo) {
+        coreDataStack.chengeCompleteStatusTodo(id: todo.id)
+    }
+    
+    func delete(todo: Todo) {
+        do {
+            try coreDataStack.delete(todo: todo)
+        } catch {
+            print("Не удалось удалить задачу: \(error)")
         }
         self.presenter?.todosIsLoaded(todos: self.coreDataStack.fetchTodos())
     }

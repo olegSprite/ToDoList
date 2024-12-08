@@ -11,6 +11,6 @@ struct Todo: Codable {
     let id: UUID
     let title: String?
     let todo: String
-    let completed: Bool
+    var completed: Bool
     let date: Date?
 }

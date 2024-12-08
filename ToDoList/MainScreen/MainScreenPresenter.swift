@@ -13,6 +13,9 @@ protocol MainScreenPresenterProtocol: AnyObject {
     func newTaskButtonTapped()
     func todosIsLoaded(todos: [Todo])
     func loadTodosFromCoreData()
+    func todoCompletedToggle(todo: Todo)
+    func editTodo(todo: Todo)
+    func delete(todo: Todo)
 }
 
 final class MainScreenPresenter: MainScreenPresenterProtocol {
@@ -53,6 +56,18 @@ final class MainScreenPresenter: MainScreenPresenterProtocol {
     
     func loadTodosFromCoreData() {
         interactor.fetchData()
+    }
+    
+    func todoCompletedToggle(todo: Todo) {
+        interactor.todoCompletedToggle(todo: todo)
+    }
+    
+    func editTodo(todo: Todo) {
+        router.openEditScreen(todo: todo)
+    }
+    
+    func delete(todo: Todo) {
+        interactor.delete(todo: todo)
     }
 
     

@@ -11,13 +11,13 @@ protocol CreatingToDoViewProtocol: AnyObject {
     func viewReadyForClosing()
 }
 
-final class CreatingTodoViewController: UIViewController {
+class CreatingTodoViewController: UIViewController {
     
     // MARK: - Private Properties
     
-    private let titleTextField = UITextField()
-    private let dateLabel = UILabel()
-    private let descriptionTextView = UITextView()
+    let titleTextField = UITextField()
+    let dateLabel = UILabel()
+    let descriptionTextView = UITextView()
     
     // MARK: - Public Properties
     
@@ -101,13 +101,12 @@ final class CreatingTodoViewController: UIViewController {
     
     // MARK: - Public Methods
     // MARK: - Private Actions
+    // MARK: - Public Actions
     
-    @objc private func doneButtonTapped() {
+    @objc func doneButtonTapped() {
         guard let title = titleTextField.text else { return }
         presenter?.doneButtonTapped(title: title, todo: descriptionTextView.text)
     }
-    
-    // MARK: - Public Actions
     
 }
 

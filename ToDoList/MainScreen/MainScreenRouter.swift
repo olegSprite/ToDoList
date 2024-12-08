@@ -9,6 +9,7 @@ import Foundation
 
 protocol MainScreenRouterProtocol: AnyObject {
     func openCreatingTodoScreen()
+    func openEditScreen(todo: Todo)
 }
 
 final class MainScreenRouter: MainScreenRouterProtocol {
@@ -26,6 +27,12 @@ final class MainScreenRouter: MainScreenRouterProtocol {
     func openCreatingTodoScreen() {
         guard let view else { return }
         let vc = CreatingTodoBuilder.build(from: view)
+        self.view?.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func openEditScreen(todo: Todo) {
+        guard let view else { return }
+        let vc = EditScreenBuilder.build(for: todo, from: view)
         self.view?.navigationController?.pushViewController(vc, animated: true)
     }
     

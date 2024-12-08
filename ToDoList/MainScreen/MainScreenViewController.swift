@@ -157,7 +157,7 @@ extension MainScreenViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let presenter else { return UITableViewCell()}
         guard let tasks = presenter.tasks else { return UITableViewCell()}
-        let cell = MainScreenTableViewCell(todo: tasks[indexPath.row])
+        let cell = MainScreenTableViewCell(todo: tasks[indexPath.row], presenter: self.presenter)
         return cell
     }
 }
