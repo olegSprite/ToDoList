@@ -9,6 +9,7 @@ import Foundation
 
 protocol MainScreenPresenterProtocol: AnyObject {
     var tasks: [Todo]? { get }
+    var fillteredTasks: [Todo]? { get }
     func viewDidLoaded()
     func newTaskButtonTapped()
     func todosIsLoaded(todos: [Todo])
@@ -16,6 +17,8 @@ protocol MainScreenPresenterProtocol: AnyObject {
     func todoCompletedToggle(todo: Todo)
     func editTodo(todo: Todo)
     func delete(todo: Todo)
+    func clearCearch()
+    func filterTodos(by searchText: String?)
 }
 
 final class MainScreenPresenter: MainScreenPresenterProtocol {
@@ -29,6 +32,7 @@ final class MainScreenPresenter: MainScreenPresenterProtocol {
     
     weak var view: MainScreenViewProtocol?
     var tasks: [Todo]? = nil
+    var fillteredTasks: [Todo]? = nil
     
     //MARK: - Init
     
@@ -51,6 +55,7 @@ final class MainScreenPresenter: MainScreenPresenterProtocol {
     
     func todosIsLoaded(todos: [Todo]) {
         self.tasks = todos
+        self.fillteredTasks = todos
         view?.reloadData()
     }
     
@@ -69,7 +74,25 @@ final class MainScreenPresenter: MainScreenPresenterProtocol {
     func delete(todo: Todo) {
         interactor.delete(todo: todo)
     }
-
+    
+    func clearCearch() {
+        self.fillteredTasks = self.tasks
+        view?.reloadData()
+    }
+    
+    func filterTodos(by searchText: String?) {
+        guard let searchText = searchText, !searchText.isEmpty else {
+            self.fillteredTasks = self.tasks
+            view?.reloadData()
+            return
+        }
+        self.fillteredTasks = self.tasks?.filter { todo in
+            (todo.title?.lowercased().contains(searchText.lowercased()) ?? false) ||
+            (todo.todo.lowercased().contains(searchText.lowercased()))
+        }
+        view?.reloadData()
+    }
+    
     
     // MARK: - Private Actions
     // MARK: - Public Actions

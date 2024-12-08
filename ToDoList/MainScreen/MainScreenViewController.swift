@@ -70,6 +70,11 @@ class MainScreenViewController: UIViewController {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
+        searchController.searchBar.tintColor = UIColor(named: "White")
+        if let textField = searchController.searchBar.value(forKey: "searchField") as? UITextField {
+            textField.textColor = UIColor(named: "White")
+            textField.tintColor = UIColor(named: "White")
+        }
     }
     
     private func setupLowerBar() {
@@ -108,7 +113,7 @@ class MainScreenViewController: UIViewController {
         NSLayoutConstraint.activate([
             taskCountLable.centerXAnchor.constraint(equalTo: lowerBar.centerXAnchor),
             taskCountLable.topAnchor.constraint(equalTo: lowerBar.topAnchor, constant: 20)
-            ])
+        ])
     }
     
     private func setupNewTaskButton() {
@@ -138,7 +143,7 @@ extension MainScreenViewController: MainScreenViewProtocol {
     
     func reloadData() {
         tasksTableView.reloadData()
-        taskCountLable.text = "\(presenter?.tasks?.count ?? 0) задач"
+        taskCountLable.text = "\(presenter?.fillteredTasks?.count ?? 0) задач"
     }
     
     func fetchNewData() {
@@ -151,12 +156,12 @@ extension MainScreenViewController: MainScreenViewProtocol {
 extension MainScreenViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter?.tasks?.count ?? 0
+        return presenter?.fillteredTasks?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let presenter else { return UITableViewCell()}
-        guard let tasks = presenter.tasks else { return UITableViewCell()}
+        guard let tasks = presenter.fillteredTasks else { return UITableViewCell()}
         let cell = MainScreenTableViewCell(todo: tasks[indexPath.row], presenter: self.presenter)
         return cell
     }
@@ -167,8 +172,8 @@ extension MainScreenViewController: UITableViewDataSource {
 extension MainScreenViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return 106
-        }
+        return 106
+    }
 }
 
 // MARK: - UISearchResultsUpdating
@@ -176,6 +181,6 @@ extension MainScreenViewController: UITableViewDelegate {
 extension MainScreenViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        
+        presenter?.filterTodos(by: searchController.searchBar.text)
     }
 }
