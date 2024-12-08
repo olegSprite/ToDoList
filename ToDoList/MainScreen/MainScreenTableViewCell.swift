@@ -56,14 +56,17 @@ final class MainScreenTableViewCell: UITableViewCell {
             checkmarkButton.setImage(.init(systemName: "circle"), for: .normal)
             checkmarkButton.tintColor = UIColor(named: "Gray")
         }
+        checkmarkButton.imageView?.contentMode = .scaleAspectFill
+        checkmarkButton.contentHorizontalAlignment = .fill
+        checkmarkButton.contentVerticalAlignment = .fill
         checkmarkButton.addTarget(self, action: #selector(checkmarkButtonTapped), for: .touchUpInside)
         contentView.addSubview(checkmarkButton)
         checkmarkButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             checkmarkButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             checkmarkButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            checkmarkButton.heightAnchor.constraint(equalToConstant: 48),
-            checkmarkButton.widthAnchor.constraint(equalToConstant: 48)
+            checkmarkButton.heightAnchor.constraint(equalToConstant: 24),
+            checkmarkButton.widthAnchor.constraint(equalToConstant: 24)
         ])
     }
     
