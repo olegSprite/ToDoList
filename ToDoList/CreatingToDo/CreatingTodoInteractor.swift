@@ -21,15 +21,9 @@ final class CreatingTodoInteractor: CreatingTodoInteractorProtocol {
     
     var presenter: CreatingTodoPresenterProtocol?
     
-    // MARK: - Lifecycle
-    // MARK: - Private Methods
     // MARK: - Public Methods
     
     func saveTodo(todo: Todo) {
         coreDataStack.saveTodo(todo)
     }
-    
-    // MARK: - Private Actions
-    // MARK: - Public Actions
-    
 }

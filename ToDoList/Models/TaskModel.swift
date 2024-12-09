@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Todo: Codable {
+struct Todo: Codable, Equatable {
     let id: UUID
     let title: String?
     let todo: String

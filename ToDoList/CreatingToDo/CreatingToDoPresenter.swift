@@ -30,8 +30,6 @@ final class CreatingTodoPresenter: CreatingTodoPresenterProtocol {
         self.interactor = interactor
     }
     
-    // MARK: - Lifecycle
-    // MARK: - Private Methods
     // MARK: - Public Methods
     
     func doneButtonTapped(title: String, todo: String) {
@@ -46,9 +44,5 @@ final class CreatingTodoPresenter: CreatingTodoPresenterProtocol {
         view?.viewReadyForClosing()
         parentView?.fetchNewData()
     }
-    
-    // MARK: - Private Actions
-    // MARK: - Public Actions
-    
 }
     

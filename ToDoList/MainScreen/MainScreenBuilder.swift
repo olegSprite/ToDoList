@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 final class MainScreenBuilder {
+    
     static func build() -> UIViewController {
         let interaction = MainScreenInteractor()
         let router = MainScreenRouter()

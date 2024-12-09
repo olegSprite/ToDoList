@@ -54,8 +54,4 @@ final class EditScreenViewController: CreatingTodoViewController, EditScreenView
     func closeScreen() {
         self.navigationController?.popViewController(animated: true)
     }
-    
-    // MARK: - Private Actions
-    // MARK: - Public Actions
-    
 }

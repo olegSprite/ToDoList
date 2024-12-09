@@ -24,8 +24,6 @@ final class MainScreenInteractor: MainScreenInteractorProtocol {
     
     var presenter: MainScreenPresenterProtocol?
     
-    // MARK: - Lifecycle
-    // MARK: - Private Methods
     // MARK: - Public Methods
     
     func fetchData() {
@@ -67,8 +65,4 @@ final class MainScreenInteractor: MainScreenInteractorProtocol {
         }
         self.presenter?.todosIsLoaded(todos: self.coreDataStack.fetchTodos())
     }
-    
-    // MARK: - Private Actions
-    // MARK: - Public Actions
-    
 }

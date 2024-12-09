@@ -12,15 +12,6 @@ protocol CreatingTodoRouterProtocol: Any {
 }
 
 final class CreatingTodoRouter: CreatingTodoRouterProtocol {
-    // MARK: - Private Properties
-    // MARK: - Public Properties
-    
+   
     var presenter: CreatingTodoPresenterProtocol?
-    
-    // MARK: - Lifecycle
-    // MARK: - Private Methods
-    // MARK: - Public Methods
-    // MARK: - Private Actions
-    // MARK: - Public Actions
-    
 }

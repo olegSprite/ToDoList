@@ -78,7 +78,7 @@ final class MainScreenTableViewCell: UITableViewCell {
         } else {
             titleLabel.textColor = UIColor(named: "White")
         }
-        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -138,16 +138,12 @@ final class MainScreenTableViewCell: UITableViewCell {
         self.todo?.completed.toggle()
     }
     
-    // MARK: - Public Methods
     // MARK: - Private Actions
     
     @objc private func checkmarkButtonTapped() {
         toggleCheckmarkButton()
         presenter?.todoCompletedToggle(todo: self.todo!)
     }
-    
-    // MARK: - Public Actions
-    
 }
 
 // MARK: - UIContextMenuInteractionDelegate

@@ -7,13 +7,11 @@
 
 import Foundation
 
-// MARK: - TodoNetworkModel
 struct TodoNetworkModel: Codable {
     let todos: [TodoNetwork]
     let total, skip, limit: Int
 }
 
-// MARK: - Todo
 struct TodoNetwork: Codable {
     let id: Int
     let todo: String

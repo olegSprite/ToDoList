@@ -99,8 +99,6 @@ class CreatingTodoViewController: UIViewController {
         ])
     }
     
-    // MARK: - Public Methods
-    // MARK: - Private Actions
     // MARK: - Public Actions
     
     @objc func doneButtonTapped() {

@@ -14,14 +14,11 @@ protocol MainScreenRouterProtocol: AnyObject {
 
 final class MainScreenRouter: MainScreenRouterProtocol {
     
-    // MARK: - Private Properties
     // MARK: - Public Properties
     
     weak var view: MainScreenViewController?
     var presenter: MainScreenPresenterProtocol?
     
-    // MARK: - Lifecycle
-    // MARK: - Private Methods
     // MARK: - Public Methods
     
     func openCreatingTodoScreen() {
@@ -34,9 +31,5 @@ final class MainScreenRouter: MainScreenRouterProtocol {
         guard let view else { return }
         let vc = EditScreenBuilder.build(for: todo, from: view)
         self.view?.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    // MARK: - Private Actions
-    // MARK: - Public Actions
-    
+    }    
 }

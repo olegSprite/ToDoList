@@ -8,6 +8,7 @@
 import Foundation
 
 protocol MainScreenPresenterProtocol: AnyObject {
+    
     var tasks: [Todo]? { get }
     var fillteredTasks: [Todo]? { get }
     func viewDidLoaded()
@@ -40,9 +41,7 @@ final class MainScreenPresenter: MainScreenPresenterProtocol {
         self.router = router
         self.interactor = interactor
     }
-    
-    // MARK: - Lifecycle
-    // MARK: - Private Methods
+
     // MARK: - Public Methods
     
     func viewDidLoaded() {
@@ -92,9 +91,4 @@ final class MainScreenPresenter: MainScreenPresenterProtocol {
         }
         view?.reloadData()
     }
-    
-    
-    // MARK: - Private Actions
-    // MARK: - Public Actions
-    
 }
